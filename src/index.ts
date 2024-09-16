@@ -14,7 +14,7 @@ import { chromium } from "playwright";
     await page.goto(url, { waitUntil: "domcontentloaded" });
 
     console.log(`waiting for articles to popup !`);
-    const selector123 = page.locator("section.ty02");
+    const selector123 = page.locator("tr.css-dfh7cx.css-knz4ib").nth(0);
     await selector123.waitFor();
 
     console.log("taking screenshot of the page ...");
