@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "declarationMap": true,
+        "esModuleInterop": true,
+        "outDir": "dist",
+        "skipLibCheck": true,
+        "module": "ESNext",
+        "sourceMap": true,
+        "target": "ES2021",
+        //
+
+        "moduleResolution": "Node",
+        //
+        "strict": true, // enables all strict
+        "strictNullChecks": false // overrides above, false allows nulls / undefined
+    }
+}
