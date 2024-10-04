@@ -14,35 +14,40 @@ import { chromium } from "playwright";
 
     await page.goto(url1);
 
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(6000);
     await page.goto(url2);
-    await page.waitForTimeout(4563);
+    await page.waitForTimeout(7563);
     await page.goto(url3);
 
     page.on("request", async (request) => {
         if (request.resourceType() === "xhr" || request.resourceType() === "fetch") {
-            if (!request.url().includes("api")) {
+            // if (!request.url().includes("api")) {
+            //     return;
+            // }
+
+            // if (
+            //     !request.url().includes("https://api-manager.upbit.com/api/v1/announcements?os=web")
+            // ) {
+            //     return;
+            // }
+
+            const r = await request.response();
+            if (!r) {
+                console.log(`${request.url()} 's response failed`);
                 return;
             }
 
-            if (
-                !request.url().includes("https://api-manager.upbit.com/api/v1/announcements?os=web")
-            ) {
-                return;
-            }
-            console.log("captured request", request.url());
-            const r = await request.response();
-            if (r.ok()) {
-                console.log("http status 200");
+            if (r && r.ok()) {
+                console.log(`${request.url()} 's response ok ${r.status()}`);
 
                 // parsing
-                try {
-                    const jsonData = await r.json();
-                    console.log("parsed jsonData", jsonData);
-                } catch (e) {
-                    console.log("unable to parse, printing text ...");
-                    console.log(await r.text());
-                }
+                // try {
+                //     const jsonData = await r.json();
+                //     console.log("parsed jsonData", jsonData);
+                // } catch (e) {
+                //     console.log("unable to parse, printing text ...");
+                //     console.log(await r.text());
+                // }
             }
         }
     });
