@@ -8,7 +8,6 @@
         "module": "ESNext",
         "sourceMap": true,
         "target": "ES2021",
-        //
 
         "moduleResolution": "Node",
         //

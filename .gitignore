@@ -6,5 +6,5 @@ node_modules/
 
 
 /dist/
-screenshot.png
+*.png
 useful-cli.md
