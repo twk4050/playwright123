@@ -8,8 +8,16 @@ import { chromium } from "playwright";
     const page = await context.newPage();
 
     //
-    const url = "https://upbit.com/service_center/notice";
-    await page.goto(url);
+    const url1 = "https://google.com";
+    const url2 = "https://upbit.com/home";
+    const url3 = "https://upbit.com/service_center/notice";
+
+    await page.goto(url1);
+
+    await page.waitForTimeout(2000);
+    await page.goto(url2);
+    await page.waitForTimeout(4563);
+    await page.goto(url3);
 
     page.on("request", async (request) => {
         if (request.resourceType() === "xhr" || request.resourceType() === "fetch") {
