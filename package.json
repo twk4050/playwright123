@@ -6,7 +6,8 @@
     "type": "module",
     "scripts": {
         "build": "tsc",
-        "start": "rimraf dist/ && tsc && node dist/index.js"
+        "start": "rimraf dist/ && tsc && node dist/index.js",
+        "ip": "rimraf dist/ && tsc && node dist/ip.js"
     },
     "keywords": [],
     "author": "",
@@ -16,12 +17,16 @@
         "@playwright/test": "^1.47.1",
         "@types/eslint__js": "^8.42.3",
         "@types/node": "^22.5.5",
+        "@types/request": "^2.48.12",
+        "@types/request-promise": "^4.1.51",
         "eslint": "^9.10.0",
         "rimraf": "^6.0.1",
         "typescript": "^5.6.2",
         "typescript-eslint": "^8.5.0"
     },
     "dependencies": {
-        "playwright": "^1.47.1"
+        "playwright": "^1.47.1",
+        "request": "^2.88.2",
+        "request-promise": "^4.2.6"
     }
 }
