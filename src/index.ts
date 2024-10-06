@@ -1,5 +1,7 @@
 import { chromium } from "playwright";
 
+let image_counter = 1;
+
 (async () => {
     const browser = await chromium.launch({
         headless: false,
@@ -13,11 +15,26 @@ import { chromium } from "playwright";
     const url3 = "https://upbit.com/service_center/notice";
 
     await page.goto(url1);
+    await page.waitForLoadState("networkidle");
+    await page.screenshot({ path: `./images/image${image_counter}.png` });
+    image_counter += 1;
+    await page.waitForTimeout(3530);
 
-    await page.waitForTimeout(6000);
     await page.goto(url2);
-    await page.waitForTimeout(7563);
+    await page.waitForLoadState("networkidle");
+    await page.screenshot({ path: `./images/image${image_counter}.png` });
+    image_counter += 1;
+    await page.waitForTimeout(2440);
+
     await page.goto(url3);
+    await page.waitForLoadState("networkidle");
+    await page.screenshot({ path: `./images/image${image_counter}.png` });
+    image_counter += 1;
+
+    setTimeout(async () => {
+        await context.close();
+        await browser.close();
+    }, 1000);
 
     page.on("request", async (request) => {
         if (request.resourceType() === "xhr" || request.resourceType() === "fetch") {

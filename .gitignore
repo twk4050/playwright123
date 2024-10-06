@@ -8,3 +8,4 @@ node_modules/
 /dist/
 *.png
 useful-cli.md
+/images
