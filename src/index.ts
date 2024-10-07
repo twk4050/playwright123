@@ -1,102 +1,82 @@
 import { chromium } from "playwright";
 
-let image_counter = 1;
+const upbit_home = "https://upbit.com/home";
+
+// ?os=web&page=1&per_page=20&category=all
+const api_endpoint = "https://api-manager.upbit.com/api/v1/announcements?";
 
 (async () => {
     const browser = await chromium.launch({
         headless: false,
+        devtools: false,
     });
+
     const context = await browser.newContext();
+
     const page = await context.newPage();
 
-    //
-    const url1 = "https://google.com";
-    const url2 = "https://upbit.com/home";
-    const url3 = "https://upbit.com/service_center/notice";
+    /* listener */
+    const WHITELISTED_REQUEST_TYPES = ["xhr", "fetch"];
+    page.on("request", async (r) => {
+        const rType = r.resourceType();
+        const url = r.url();
 
-    await page.goto(url1);
-    await page.waitForLoadState("networkidle");
-    await page.screenshot({ path: `./images/image${image_counter}.png` });
-    image_counter += 1;
-    await page.waitForTimeout(3530);
+        if (!WHITELISTED_REQUEST_TYPES.includes(rType)) {
+            return;
+        }
 
-    await page.goto(url2);
-    await page.waitForLoadState("networkidle");
-    await page.screenshot({ path: `./images/image${image_counter}.png` });
-    image_counter += 1;
-    await page.waitForTimeout(2440);
+        if (!url.includes("api")) {
+            return;
+        }
 
-    await page.goto(url3);
-    await page.waitForLoadState("networkidle");
-    await page.screenshot({ path: `./images/image${image_counter}.png` });
-    image_counter += 1;
+        if (url.includes(api_endpoint)) {
+            const allHeaders = await r.allHeaders();
+
+            const res = await r.response();
+
+            if (res) {
+                const resAllHeaders = await res.allHeaders();
+                const resStatus = res.status();
+                const resStatusText = res.statusText();
+                const resJsonData = await res.json();
+
+                console.log("----- request -----");
+                console.log(`request url: ${url}`);
+                console.log(allHeaders);
+                console.log("----- response -----");
+                console.log(resAllHeaders);
+                console.log(resStatus);
+                console.log(resStatusText);
+
+                if ("data" in resJsonData) {
+                    if ("notices" in resJsonData["data"]) {
+                        for (let i = 0; i < resJsonData["data"]["notices"].length; i++) {
+                            if (i > 3) {
+                                break;
+                            }
+                            console.log(resJsonData["data"]["notices"][i]);
+                            console.log(resJsonData["data"]["notices"][i]);
+                            console.log(resJsonData["data"]["notices"][i]);
+                        }
+                    }
+                }
+            } else {
+                console.log("response unsuccessful");
+            }
+        }
+    });
+
+    /* from upbit home -> go to upbit notice page */
+
+    await page.goto(upbit_home, { waitUntil: "domcontentloaded" });
+    await page.waitForTimeout(1324);
+    await page.locator(".css-ddhpqj > use").click();
+    await page.locator("#modal svg").nth(2).click();
+    await page.waitForTimeout(3565);
+    await page.getByRole("link", { name: "공지사항" }).click();
 
     setTimeout(async () => {
         await context.close();
         await browser.close();
-    }, 1000);
-
-    page.on("request", async (request) => {
-        if (request.resourceType() === "xhr" || request.resourceType() === "fetch") {
-            // if (!request.url().includes("api")) {
-            //     return;
-            // }
-
-            // if (
-            //     !request.url().includes("https://api-manager.upbit.com/api/v1/announcements?os=web")
-            // ) {
-            //     return;
-            // }
-
-            const r = await request.response();
-            if (!r) {
-                console.log(`${request.url()} 's response failed`);
-                return;
-            }
-
-            if (r && r.ok()) {
-                console.log(`${request.url()} 's response ok ${r.status()}`);
-
-                // parsing
-                // try {
-                //     const jsonData = await r.json();
-                //     console.log("parsed jsonData", jsonData);
-                // } catch (e) {
-                //     console.log("unable to parse, printing text ...");
-                //     console.log(await r.text());
-                // }
-            }
-        }
-    });
-    // const url = "https://upbit.com/home";
-    // const url = "https://upbit.com/service_center/notice";
-    // https://api-manager.upbit.com/api/v1/announcements?os=web&page=1&per_page=20&category=all
-
-    // console.log(`page goto ${url}`);
-    // await page.goto(url, { waitUntil: "domcontentloaded" });
-
-    // console.log(`waiting for articles to popup !`);
-    // const selector123 = page.locator("tr.css-dfh7cx.css-knz4ib").nth(0);
-    // await selector123.waitFor();
-
-    // console.log("taking screenshot of the page ...");
-    // await page.screenshot({ path: "screenshot.png", fullPage: true });
-
-    // console.log("screenshot taken !");
-
-    // console.log("sending http request ");
-
-    // const api_url =
-    //     "https://api-manager.upbit.com/api/v1/announcements?os=web&page=1&per_page=20&category=all";
-
-    // const api_req_context = page.request;
-    // const api_response = await api_req_context.get(api_url);
-
-    // const r_body = await api_response.json();
-    // console.log(r_body);
-
-    // setTimeout(async () => {
-    //     await context.close();
-    //     await browser.close();
-    // }, 5000);
+    }, 6000);
 })();

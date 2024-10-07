@@ -9,3 +9,5 @@ node_modules/
 *.png
 useful-cli.md
 /images
+playwright.md
+output*.txt
