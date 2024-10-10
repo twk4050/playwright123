@@ -13,6 +13,8 @@ const url = process.argv[2];
 const nic = process.argv[3];
 
 // npm run localAddress https://httpbin.org/ip 192.168.0.110
+// npm run localAddress https://httpbin.org/ip 51.79.143.105
+// npm run localAddress https://httpbin.org/ip 139.99.36.4
 // https://fapi.binance.com/fapi/v1/ping
 // https://httpbin.org/ip
 // ens3
@@ -23,13 +25,13 @@ const httpsAgent = new Agent.HttpsAgent({
     maxFreeSockets: 10,
     timeout: 60000, // active socket keepalive for 60 seconds
     freeSocketTimeout: 30000, // free socket keepalive for 30 seconds
+    localAddress: nic,
 });
 
 const client = request.defaults({
     agent: httpsAgent,
     json: true,
     time: true,
-    localAddress: nic,
 });
 
 function sendRequest() {
