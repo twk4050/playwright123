@@ -7,7 +7,8 @@
     "scripts": {
         "build": "tsc",
         "start": "rimraf dist/ && tsc && node dist/index.js",
-        "ip": "rimraf dist/ && tsc && node dist/ip.js"
+        "ip": "rimraf dist/ && tsc && node dist/ip.js",
+        "time": "rimraf dist/ && tsc && node dist/time.js"
     },
     "keywords": [],
     "author": "",
@@ -25,6 +26,7 @@
         "typescript-eslint": "^8.5.0"
     },
     "dependencies": {
+        "agentkeepalive": "^4.5.0",
         "playwright": "^1.47.1",
         "request": "^2.88.2",
         "request-promise": "^4.2.6"

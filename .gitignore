@@ -7,7 +7,7 @@ node_modules/
 
 /dist/
 *.png
-useful-cli.md
 /images
-playwright.md
 output*.txt
+*.md
+*.yaml
