@@ -9,7 +9,8 @@
         "start": "rimraf dist/ && tsc && node dist/index.js",
         "ip": "rimraf dist/ && tsc && node dist/ip.js",
         "time": "rimraf dist/ && tsc && node dist/time.js",
-        "sample": "rimraf dist/ && tsc && node dist/sample.js"
+        "sample": "rimraf dist/ && tsc && node dist/sample.js",
+        "localAddress": "rimraf dist/ && tsc && node dist/localAddress.js"
     },
     "keywords": [],
     "author": "",
