@@ -8,7 +8,8 @@
         "build": "tsc",
         "start": "rimraf dist/ && tsc && node dist/index.js",
         "ip": "rimraf dist/ && tsc && node dist/ip.js",
-        "time": "rimraf dist/ && tsc && node dist/time.js"
+        "time": "rimraf dist/ && tsc && node dist/time.js",
+        "sample": "rimraf dist/ && tsc && node dist/sample.js"
     },
     "keywords": [],
     "author": "",
